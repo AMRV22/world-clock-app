@@ -5,7 +5,7 @@ import { useState } from "react"
 
 
 
-const TanstackProvider = ({children}: {children: React.ReactNode}) => {
+const QueryProvider = ({children}: {children: React.ReactNode}) => {
     const [queryClient] = useState(() => new QueryClient())
     return(
         <QueryClientProvider client={queryClient}>
@@ -14,4 +14,4 @@ const TanstackProvider = ({children}: {children: React.ReactNode}) => {
     )
 }
 
-export default TanstackProvider
+export default QueryProvider
