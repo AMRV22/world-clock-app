@@ -8,23 +8,23 @@ import TimeZone from "../utils/interfaces/time-zone";
 interface ContextProps {
     zone: IAutoComplete[],
     setZone: Dispatch<SetStateAction<IAutoComplete[]>>,
-    data: TimeZone[],
-    setData: Dispatch<SetStateAction<TimeZone[]>>
+    timeZone: TimeZone[],
+    setTimeZone: Dispatch<SetStateAction<TimeZone[]>>
 }
 
 const GlobalContext = createContext<ContextProps>({
     zone: [],
     setZone: () : IAutoComplete[] => [],
-    data: [],
-    setData: () : TimeZone[] =>   [],
+    timeZone: [],
+    setTimeZone: () : TimeZone[] =>   [],
 });
 
 export const GlobalContextProvider = ({children}: {children: React.ReactNode}) => {
     const [zone, setZone] = useState<[] | IAutoComplete[]>([]);
-    const [data, setData] = useState<[] | TimeZone[]>([]);
+    const [timeZone, setTimeZone] = useState<[] | TimeZone[]>([]);
     
     return (
-        <GlobalContext.Provider value={{ zone, setZone, data, setData }}>
+        <GlobalContext.Provider value={{ zone, setZone, timeZone, setTimeZone }}>
             {children}
         </GlobalContext.Provider>
     )
