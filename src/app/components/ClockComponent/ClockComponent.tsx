@@ -1,10 +1,18 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import { ClockContainer, CustomClock } from './styles'
+"use client";
+import React, { useEffect, useState, FC } from "react";
+import { ClockContainer, CustomClock, BackgroundContainer } from "./styles";
 import { Transition } from "@headlessui/react";
-import 'react-clock/dist/Clock.css'
+import Link from "next/link";
+import TimeZone from "../../utils/interfaces/time-zone";
+import "react-clock/dist/Clock.css";
 
-const ClockComponent = () => {
+interface ClockComponentProps {
+  data: TimeZone;
+}
+
+const ClockComponent: FC<ClockComponentProps> = ({
+  data,
+}: ClockComponentProps) => {
   const [value, setValue] = useState(new Date());
 
   useEffect(() => {
@@ -26,19 +34,32 @@ const ClockComponent = () => {
       leaveFrom="transform scale-100 opacity-100"
       leaveTo="transform scale-95 opacity-0">
       <ClockContainer>
-        <p className='text-2xl font-semibold text-blue-500 text-center'>Europe/Amsterdam</p>
-        <div className='flex justify-center my-6'>
+        {/* <BackgroundContainer> */}
+        <p className="text-2xl font-semibold text-blue-50 text-center">
+          Europe/Amsterdam
+        </p>
+        <div className="flex justify-center my-6">
           <CustomClock value={value} />
         </div>
-        <p className='text-xl text-blue-400 text-center'>Miercoles 08 de Febrero de 2024</p>
-        <p className='text-xl text-blue-400 text-center'>03:15:34 pm</p>
+        <p className="text-xl text-blue-50 text-center">
+          Miercoles 08 de Febrero de 2024
+        </p>
+        <p className="text-xl text-blue-50 text-center">03:15:34 pm</p>
 
-        <div className='my-4 flex justify-center'>
-          <button className='bg-blue-500 text-white px-4 py-2 rounded-md'>View details</button>
+        <div className="my-4 flex justify-center">
+          <Link
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            href={{
+              pathname: "/detail",
+              query: { zone: "Europe/Amsterdan" },
+            }}>
+            View details
+          </Link>
         </div>
+        {/* </BackgroundContainer> */}
       </ClockContainer>
     </Transition>
-  )
-}
+  );
+};
 
 export default ClockComponent;

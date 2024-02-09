@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GlobalContextProvider } from "./context/StoreProvider";
+import TanstackProvider from "./context/QueryProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen flex-col items-center justify-between p-24 bg-gradient-to-br from-blue-500 via-blue-800 to-blue-900">{children}</body>
+      <body className="flex min-h-screen flex-col items-center justify-between p-24 bg-gradient-to-br from-blue-500 via-blue-800 to-blue-900">
+        <TanstackProvider>
+          <GlobalContextProvider>
+            {children}
+            </GlobalContextProvider>
+        </TanstackProvider>
+      </body>
     </html>
   );
 }

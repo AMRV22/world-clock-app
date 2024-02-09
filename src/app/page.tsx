@@ -2,19 +2,21 @@
 import AutoCompleteComponent from "./components/AutoCompleteComponent/AutoCompleteComponent";
 import ClockComponent from "./components/ClockComponent/ClockComponent";
 import IZone from "./utils/types/zones";
-const fakeData = [
-  { id: 1, name: "The Shawshank Redemption" },
-  { id: 2, name: "The  Redemption" },
-];
+import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
+  const {data, isLoading} = useQuery({
+    queryKey: ["zones"],
+    queryFn: () => fetch()
+  })
+
   return (
     <main className="flex min-h-screen flex-col  p-24">
       <h1 className="text-8xl font-bold text-center text-white">
         World timezone app
       </h1>
       <div className="pt-8">
-        <AutoCompleteComponent options={fakeData} />
+        <AutoCompleteComponent options={[]} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-12">

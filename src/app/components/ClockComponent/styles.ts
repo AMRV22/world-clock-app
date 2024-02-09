@@ -3,13 +3,22 @@ import tw from "twin.macro";
 import Clock from 'react-clock'
 
 const ClockContainer = styled.div`
-    ${tw`max-w-sm p-6 bg-gradient-to-t from-blue-400  to-blue-800  rounded-lg shadow justify-center `}
+    ${tw`max-w-sm p-6 bg-gradient-to-t from-blue-400  to-blue-800  rounded-lg shadow justify-center `} 
 `;
+
+const BackgroundContainer = styled.div`
+    background-image: url('/FondoCity.png');
+    background-repeat: no-repeat;
+    z-index: 0;
+    opacity: 0.9;
+`;
+
+
 
 const CustomClock = styled(Clock)`
     .react-clock__second-hand__body{
-        background-color: #836BFA;
-        width: 5px;
+        background-color: #B0A1FC !important;
+        width: 5px !important;
     }
     .react-clock__second-hand__body:after {
         content: "";
@@ -19,23 +28,28 @@ const CustomClock = styled(Clock)`
         position: absolute;
         top: 0;
         left: 50%;
-        background-color: #836BFA;
+        background-color: #B0A1FC;
         border-radius: 50%;
         transform: translate(-50%)
     }
 
     .react-clock__hand__body{
-        background-color: #12035E;
+        background-color: #ffff;
     }
 
     .react-clock__mark__body{
-        background-color: #12035E;
-        width: 5px;
+        background-color: #ffff;
+        width: 3px !important;
+    }
+
+    .react-clock__face{
+        border: 3px solid #ffff;
     }
 
 `
 
 export {
     ClockContainer,
-    CustomClock
+    CustomClock,
+    BackgroundContainer
 }
