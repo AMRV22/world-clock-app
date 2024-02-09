@@ -1,25 +1,26 @@
 "use client"
 import React from "react";
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
+import IAutoComplete from "@/app/utils/types/autocomplete";
 
 import TimeZone from "../utils/interfaces/time-zone";
 
 interface ContextProps {
-    zone: string[],
-    setZone: Dispatch<SetStateAction<string[]>>,
+    zone: IAutoComplete[],
+    setZone: Dispatch<SetStateAction<IAutoComplete[]>>,
     data: TimeZone[],
     setData: Dispatch<SetStateAction<TimeZone[]>>
 }
 
 const GlobalContext = createContext<ContextProps>({
     zone: [],
-    setZone: () : string[] => [],
+    setZone: () : IAutoComplete[] => [],
     data: [],
     setData: () : TimeZone[] =>   [],
 });
 
 export const GlobalContextProvider = ({children}: {children: React.ReactNode}) => {
-    const [zone, setZone] = useState<[] | string[]>([]);
+    const [zone, setZone] = useState<[] | IAutoComplete[]>([]);
     const [data, setData] = useState<[] | TimeZone[]>([]);
     
     return (

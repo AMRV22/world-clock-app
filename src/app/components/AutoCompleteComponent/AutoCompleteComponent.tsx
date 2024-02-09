@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
-import { useState, FC } from "react";
+import { useState, FC, Fragment, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { RiCloseCircleLine } from "@remixicon/react";
+import IAutoComplete from "@/app/utils/types/autocomplete";
 
 import {
     AutoCompleteInput,
@@ -12,34 +13,54 @@ import {
 } from "./styles";
 
 import { CustomChipButton, CustomChipComponent } from "../StyledComponents/elements/chip";
+import { on } from "events";
 
-interface IData {
-    id: number;
-    name: string;
-}
+
 
 interface AutoCompleteComponentProps {
-    options: IData[];
+    options: IAutoComplete[];
+    onChange: (value: IAutoComplete[]) => void;
 };
 
 const AutoCompleteComponent: FC<AutoCompleteComponentProps> = ({
     options,
+    onChange
 }: AutoCompleteComponentProps) => {
-    const [selectedVal, setSelectedVal] = useState<IData[]>([]);
+    const [selectedVal, setSelectedVal] = useState<IAutoComplete[]>([]);
+    const [query, setQuery] = useState('')
+
+    const filteredOptions =
+        query === ''
+            ? options
+            : options.filter((option) =>
+                option.name
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                    .includes(query.toLowerCase().replace(/\s+/g, ''))
+            );
+
+    const deleteSelectedItem = (item: IAutoComplete) => {
+        const updatedSelectedVal = selectedVal.filter((val) => val.id !== item.id);
+        setSelectedVal(updatedSelectedVal);
+    };
+
+
+    useEffect(() => {
+        onChange(selectedVal)
+    }, [selectedVal, onChange]);
 
     return (
         <Combobox value={selectedVal} onChange={setSelectedVal} multiple>
             <AutoCompleteLabel>Search time/zone:</AutoCompleteLabel>
-            <AutoCompleteInput />
+            <AutoCompleteInput onChange={(event) => setQuery(event.target.value)} />
             <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0">
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+                afterLeave={() => setQuery('')}>
                 <AutoCompleteOptions>
-                    {options.map((option) => (
+                    {filteredOptions.map((option) => (
                         <AutoCompleteOption key={option.id} value={option}>
                             {option.name}
                         </AutoCompleteOption>
@@ -54,6 +75,7 @@ const AutoCompleteComponent: FC<AutoCompleteComponentProps> = ({
                         >
                             <span className="mr-5">{option.name}</span>
                             <CustomChipButton
+                                onClick={() => deleteSelectedItem(option)}
                                 type="button">
                                 <RiCloseCircleLine size={20}
                                     color="white"
