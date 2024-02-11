@@ -7,9 +7,10 @@ import { fetchAvailableZones } from "./utils/services/time-zones";
 import IAutoComplete from "@/app/utils/types/autocomplete";
 import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { RiLoader4Fill } from "@remixicon/react";
+import React,{ useEffect, Suspense } from "react";
 
-export default function Home() {
+const Home =()  => {
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -66,5 +67,13 @@ export default function Home() {
 
       <ClockComponentContainer />
     </main>
+  );
+}
+
+export default function PageWithSuspense() {
+  return (
+    <Suspense fallback={<div><RiLoader4Fill className="animate-spin text-6xl text-blue-50" /></div>}>
+      <Home />
+    </Suspense>
   );
 }
