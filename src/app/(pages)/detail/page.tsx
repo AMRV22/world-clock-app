@@ -10,8 +10,6 @@ import { RiLoader4Fill } from "@remixicon/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const Page = () => {
-
-
   const [currentZone, setCurrentZone] = useState<TimeZone>({});
 
   const router = useRouter();
@@ -35,7 +33,9 @@ const Page = () => {
   const { datetime, timezone } = currentZone;
 
   const formattedDateTxt = useMemo(() => {
-    return datetime?.date_time_txt ? format(datetime?.date_time_txt, "PPPPP") : "";
+    return datetime?.date_time_txt
+      ? format(datetime?.date_time_txt, "PPPPP")
+      : "";
   }, [datetime]);
 
   const formattedTimeTxt = useMemo(() => {
@@ -74,14 +74,17 @@ const Page = () => {
         <div className="my-4 flex justify-center">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            onClick={goBack}
-           >
+            onClick={goBack}>
             Go back
           </button>
         </div>
       </InfoContainer>
       <MapContainer>
-        <MapComponent location={location} />
+        {location.length === 2 ? (
+          <MapComponent location={location} />
+        ) : (
+          <div className="text-xl text-blue-50 text-center">Location data not available</div>
+        )}
       </MapContainer>
     </div>
   );
