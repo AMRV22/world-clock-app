@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import MapComponent from "@/app/components/MapComponent";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTimeZone } from "../../utils/services/time-zones";
@@ -90,4 +90,10 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default function PageWithSuspense() {
+    return (
+      <Suspense fallback={<div><RiLoader4Fill className="animate-spin text-6xl text-blue-50" /></div>}>
+        <Page />
+      </Suspense>
+    );
+  }
