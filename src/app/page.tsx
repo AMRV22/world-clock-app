@@ -1,6 +1,6 @@
 "use client";
-import AutoCompleteComponent from "./components/AutoCompleteComponent/AutoCompleteComponent";
-import ClockComponentContainer from "./components/ClockComponentContainer/ClockComponentContainer";
+import AutoCompleteComponent from "./components/AutoCompleteComponent";
+import ClockComponentContainer from "./components/ClockComponentContainer";
 import { useQuery } from "@tanstack/react-query";
 import { useGlobalContext } from "./context/StoreProvider";
 import { fetchAvailableZones } from "./utils/services/time-zones";

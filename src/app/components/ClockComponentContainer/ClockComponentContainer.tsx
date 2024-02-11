@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from "react";
-import ClockComponent from "../ClockComponent/ClockComponent";
+import ClockComponent from "../ClockComponent";
 import { useQuery } from "@tanstack/react-query";
 import { useGlobalContext } from "../../context/StoreProvider";
 import { fetchTimeZone } from "../../utils/services/time-zones";
@@ -19,7 +19,7 @@ const ClockComponentContainer = () => {
         return Promise.reject(new Error("No well zone"));
       }
       const zoneExists = timeZone.some(
-        (tz) => tz.timezone.id === lastZone.name
+        (tz) => tz.timezone && tz.timezone.id === lastZone.name
       );
       if (!zoneExists) {
         return fetchTimeZone(lastZone.name);
@@ -38,12 +38,10 @@ const ClockComponentContainer = () => {
 
   useEffect(() => {
     const updatedTimeZone = timeZone.filter((tz) =>
-      zone.some((z) => z.name === tz.timezone.id)
+      zone.some((z) => z.name === (tz.timezone?.id ?? ""))
     );
     setTimeZone(updatedTimeZone);
   }, [zone]);
-
-
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-12">

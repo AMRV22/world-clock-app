@@ -38,9 +38,9 @@ const Clock: FC<{ initialDate: Date }> = ({ initialDate }) => {
 const ClockComponent: FC<ClockComponentProps> = ({ data }) => {
   const memoizedData: TimeZone = useDeepCompareMemoize(data);
   const { datetime, timezone } = memoizedData;
-  const initialDate = new Date(datetime.date_time_txt);
-  const formattedDateTxt = format(datetime.date_time_txt, 'PPPPP');
-  const formattedTimeTxt = format(datetime.date_time_txt, 'p');
+  const initialDate = datetime ? new Date(datetime.date_time_txt) : new Date();
+  const formattedDateTxt = format(datetime?.date_time_txt ?? '', 'PPPPP');
+  const formattedTimeTxt = format(datetime?.date_time_txt ?? '', 'p');
 
   return (
     <Transition
@@ -51,7 +51,7 @@ const ClockComponent: FC<ClockComponentProps> = ({ data }) => {
       leaveTo="opacity-0">
       <ClockContainer>
         <p className="text-2xl font-semibold text-blue-50  break-words text-pretty text-center">
-         {timezone.id}
+         {timezone?.id}
         </p>
         <div className="flex justify-center my-6">
           <Clock initialDate={initialDate} />
@@ -65,7 +65,7 @@ const ClockComponent: FC<ClockComponentProps> = ({ data }) => {
             className="bg-blue-500 text-white px-4 py-2 rounded-md"
             href={{
               pathname: "/detail",
-              query: { zone: timezone.id },
+              query: { zone: timezone?.id },
             }}>
             View details
           </Link>

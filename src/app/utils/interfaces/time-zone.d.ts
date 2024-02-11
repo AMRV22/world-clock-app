@@ -1,8 +1,11 @@
 interface ITimeZone {
-    timezone: {
+    timezone?: {
         id:string, 
+        capital:string,
+        location: string,
+        country_name : string
     },
-    datetime: {
+    datetime?: {
         date_time_txt:string,
         date_time_ymd: string,
     },
