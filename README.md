@@ -5,21 +5,21 @@ World clock app is a web application that allows users to search for multiple ti
 ## Features
 
 - Search for multiple time zones, you can also search by path params using timeZone query (/?timeZone=America/El_Salvador)
-![Search View](SearchList.png)
+![Search View](./public/SearchList.png)
 
 - View real-time data for each time zone
-![Search Results](./SearchResults.png)
+![Search Results](./public/SearchResults.png)
 
 - Access detailed view for each time zone, including a map and additional details
-![Search Results](./DetailPage.png)
+![Search Results](./public/DetailPage.png)
 
 
 ## Libraries
-- Leaflet for display the map location.
+- Leaflet to display the map location.
 
-- date-fns for format dates.
+- date-fns to format dates.
 
-- react-clock for render a clock component.
+- react-clock to render a clock component.
 
 ## Installation
 
