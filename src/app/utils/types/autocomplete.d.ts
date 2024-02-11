@@ -1,9 +1,9 @@
-type IAutoComplete = {
+type AutoComplete = {
     id: number,
     name: string
 }
 
-export default IAutoComplete
+export default AutoComplete
 
 
 

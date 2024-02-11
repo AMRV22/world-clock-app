@@ -1,5 +1,4 @@
-
-const baseUrl = 'https://timeapi.io/api';
+import ITimeZoneResponse from "../interfaces/time-zone-response";
 
 const fetchAvailableZones = async (): Promise<string[]> => {
     try {
@@ -11,8 +10,19 @@ const fetchAvailableZones = async (): Promise<string[]> => {
     }
 };
 
+const fetchTimeZone = async (zone_params:string): Promise<ITimeZoneResponse> => {
+    try {
+        const res = await fetch(`https://timezoneapi.io/api/timezone/?${zone_params}&token=aUAmExrwzzgfSiBHumAx`);
+        return res.json();
+    } catch (error) {
+        console.error(error);
+        throw(error)
+    }
+}
+
 export {
-    fetchAvailableZones
+    fetchAvailableZones,
+    fetchTimeZone
 };
 
 

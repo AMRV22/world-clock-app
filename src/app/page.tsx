@@ -1,28 +1,60 @@
-"use client"
+"use client";
 import AutoCompleteComponent from "./components/AutoCompleteComponent/AutoCompleteComponent";
-import ClockComponent from "./components/ClockComponent/ClockComponent";
+import ClockComponentContainer from "./components/ClockComponentContainer/ClockComponentContainer";
 import { useQuery } from "@tanstack/react-query";
-import { useGlobalContext } from './context/StoreProvider';
+import { useGlobalContext } from "./context/StoreProvider";
 import { fetchAvailableZones } from "./utils/services/time-zones";
 import IAutoComplete from "@/app/utils/types/autocomplete";
 import { useCallback } from "react";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const router = useRouter();
 
-  const { setZone, zone, timeZone, setTimeZone } = useGlobalContext();
+  const searchParams = useSearchParams();
 
-  const { isPending, error, data } = useQuery({
+  const search = searchParams.getAll("timeZone");
+
+  const { setZone, zone } = useGlobalContext();
+
+  const { data } = useQuery({
     queryKey: ["zones"],
-    queryFn: fetchAvailableZones
-  })
+    queryFn: fetchAvailableZones,
+  });
 
-  const handleZoneChange = useCallback((newZone: IAutoComplete[]) => {
-    setZone(newZone);
-  }, [setZone]);
+  const handleZoneChange = (newZone: IAutoComplete[]) => {
+    let queryParams = search.length > 0 ? `${search.join("&")}` : "";
 
+    if (newZone.length > 0) {
+        const zone_params = newZone.map((zone) => `timeZone=${zone.name}`).join("&");
+        router.push(`/?${zone_params}${queryParams ? '' : ''}`);
+    } else {
+        // Remove all 'timeZone' parameters from the URL
+        queryParams = '';
+        router.push(`/?${queryParams}`);
+    }
+};
 
-  const zones = data?.map((zone: string, index: number) => ({ id: index, name: zone })) || [];
+  const assignZone = useCallback(() => {
+    const zoneArray = search.map((zone, index) => ({
+      id: index,
+      name: zone,
+    }));
+    return zoneArray;
+  }, [search]);
+
+  useEffect(() => {
+    const newZoneArray = assignZone();
+    if (JSON.stringify(zone) !== JSON.stringify(newZoneArray)) {
+      setZone(newZoneArray);
+    }
+  }, [assignZone]);
+
+  const zones =
+    data?.map((zone: string, index: number) => ({ id: index, name: zone })) ||
+    [];
+
   return (
     <main className="flex min-h-screen flex-col  p-24">
       <h1 className="text-8xl font-bold text-center text-white">
@@ -32,9 +64,7 @@ export default function Home() {
         <AutoCompleteComponent options={zones} onChange={handleZoneChange} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-12">
-        <ClockComponent />
-      </div>
+      <ClockComponentContainer />
     </main>
   );
 }

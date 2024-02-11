@@ -3,7 +3,7 @@ import React from "react";
 import { useState, FC, Fragment, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { RiCloseCircleLine } from "@remixicon/react";
-import IAutoComplete from "@/app/utils/types/autocomplete";
+import TAutoComplete from "@/app/utils/types/autocomplete";
 
 import {
     AutoCompleteInput,
@@ -13,20 +13,20 @@ import {
 } from "./styles";
 
 import { CustomChipButton, CustomChipComponent } from "../StyledComponents/elements/chip";
-import { on } from "events";
+
 
 
 
 interface AutoCompleteComponentProps {
-    options: IAutoComplete[];
-    onChange: (value: IAutoComplete[]) => void;
+    options: TAutoComplete[];
+    onChange: (value: TAutoComplete[]) => void;
 };
 
 const AutoCompleteComponent: FC<AutoCompleteComponentProps> = ({
     options,
     onChange
 }: AutoCompleteComponentProps) => {
-    const [selectedVal, setSelectedVal] = useState<IAutoComplete[]>([]);
+    const [selectedVal, setSelectedVal] = useState<TAutoComplete[]>([]);
     const [query, setQuery] = useState('')
 
     const filteredOptions =
@@ -39,18 +39,20 @@ const AutoCompleteComponent: FC<AutoCompleteComponentProps> = ({
                     .includes(query.toLowerCase().replace(/\s+/g, ''))
             );
 
-    const deleteSelectedItem = (item: IAutoComplete) => {
+    const deleteSelectedItem = (item: TAutoComplete) => {
         const updatedSelectedVal = selectedVal.filter((val) => val.id !== item.id);
         setSelectedVal(updatedSelectedVal);
+        onChange(updatedSelectedVal);
     };
 
 
-    useEffect(() => {
-        onChange(selectedVal)
-    }, [selectedVal, onChange]);
+    const handleOnChange = (value: TAutoComplete[]) => {
+        setSelectedVal(value);
+        onChange(value);
+    };
 
     return (
-        <Combobox value={selectedVal} onChange={setSelectedVal} multiple>
+        <Combobox value={selectedVal} onChange={handleOnChange} multiple>
             <AutoCompleteLabel>Search time/zone:</AutoCompleteLabel>
             <AutoCompleteInput onChange={(event) => setQuery(event.target.value)} />
             <Transition

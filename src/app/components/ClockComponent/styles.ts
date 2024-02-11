@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import Clock from 'react-clock'
 
 const ClockContainer = styled.div`
-    ${tw`max-w-sm p-6 bg-gradient-to-t from-blue-400  to-blue-800  rounded-lg shadow justify-center `} 
+    ${tw`max-w-sm  p-6  justify-center `} 
 `;
 
 const BackgroundContainer = styled.div`
